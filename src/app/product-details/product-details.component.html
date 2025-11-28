@@ -1,0 +1,87 @@
+<div class="container container-fluid mt-5">
+  <!-- Angular check for product -->
+  <div *ngIf="product; else noProduct">
+    <div class="row d-flex justify-content-around">
+
+      <!-- Product Image -->
+      <div *ngIf="product" class="col-12 col-lg-5 img-fluid" id="product_image">
+  <img
+    [src]="'/assets' + product.imageUrl"
+    alt="{{ product.name }}"
+    width="500"
+    height="500"
+    class="img-fluid"
+  />
+</div>
+
+
+      <!-- Product Details -->
+      <div class="col-12 col-lg-5 mt-5">
+        <h3>{{ product.name }}</h3>
+        <p id="product_id">Product # {{ product._id }}</p>
+
+        <hr />
+
+        <!-- Rating -->
+        <div class="rating-outer">
+          <div class="rating-inner" [ngStyle]="{ width: (product.ratings / 5 * 100) + '%' }"></div>
+        </div>
+
+        <hr />
+
+        <!-- Price -->
+        <p id="product_price">₹{{ product.price }}</p>
+
+        <!-- Quantity Counter -->
+        <div class="stockCounter d-inline">
+          <span class="btn btn-danger minus" (click)="decreaseQty()">-</span>
+
+          <input
+            type="number"
+            class="form-control count d-inline"
+            [(ngModel)]="qty"
+            [value]="qty"
+            readonly
+          />
+
+          <span class="btn btn-primary plus" (click)="increaseQty()">+</span>
+        </div>
+
+        <button type="button" id="cart_btn" class="btn btn-primary d-inline ml-4" (click)="addToCart()">
+          Add to Cart
+        </button>
+
+        <hr />
+
+        <!-- Stock Status -->
+        <p>
+          Status:
+          <span
+            id="stock_status"
+            [ngStyle]="{ color: product.stock > 0 ? 'green' : 'red' }"
+          >
+            {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+          </span>
+        </p>
+
+        <hr />
+
+        <!-- Description -->
+        <h4 class="mt-2">Description:</h4>
+        <p>{{ product.description }}</p>
+
+        <hr />
+
+        <!-- Seller -->
+        <p id="product_seller" class="mb-3">
+          Sold by: <strong>{{ product.seller }}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Product Template -->
+  <ng-template #noProduct>
+    <h3 class="text-center">No product found</h3>
+  </ng-template>
+</div>

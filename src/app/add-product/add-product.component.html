@@ -1,0 +1,38 @@
+<h2>Add Product</h2>
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Name:</label>
+    <input formControlName="name" />
+    <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid">
+      Name is required.
+    </div>
+  </div>
+
+  <div>
+    <label>Price:</label>
+    <input type="number" formControlName="price" />
+    <div *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid">
+      Price is required and must be positive.
+    </div>
+  </div>
+
+  <div>
+    <label>Description:</label>
+    <textarea formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label>Category:</label>
+    <input formControlName="category" />
+  </div>
+
+  <div>
+    <label>Image URL:</label>
+    <input formControlName="imageUrl" />
+  </div>
+
+  <button type="submit" [disabled]="isSubmitting">Add Product</button>
+
+  <p *ngIf="errorMsg" style="color: red;">{{ errorMsg }}</p>
+</form>

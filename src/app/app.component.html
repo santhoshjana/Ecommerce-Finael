@@ -1,0 +1,60 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-light shadow-sm py-3">
+  <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between">
+    
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <img src="assets/images/logo.png" alt="Logo" width="100" class="me-2" />
+      <span class="fw-bold text-dark">VSKcart</span>
+    </a>
+
+    <!-- Add Product Button -->
+    <div class="d-flex justify-content-center mb-2 mb-md-0">
+      <a routerLink="/addProduct">
+        <button class="btn btn-outline-primary me-2">Add Product</button>
+      </a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="flex-grow-1 mx-3 my-2 my-md-0">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Product Name ..."
+          [(ngModel)]="searchText"
+          (input)="clearSearch()"
+          (keydown.enter)="searchByEnter()"
+        />
+        <button (click)="search()" class="btn btn-primary">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Auth + Cart -->
+    <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
+      <a routerLink="/login">
+        <button class="btn btn-outline-dark">Login</button>
+      </a>
+      <a routerLink="/register">
+        <button class="btn btn-outline-dark">Register</button>
+      </a>
+      <a routerLink="/cart" class="d-flex align-items-center text-decoration-none text-dark ms-2">
+        <span class="fw-bold">Cart</span>
+        <span class="badge bg-primary ms-1">{{ cartCount }}</span>
+      </a>
+    </div>
+    
+  </div>
+</nav>
+
+<!-- Main Content -->
+<router-outlet></router-outlet>
+
+<!-- Footer -->
+<footer class="bg-light py-3 border-top">
+  <p class="text-center text-muted mb-0">
+    VSKcart - 2022-2023, All Rights Reserved
+  </p>
+</footer>

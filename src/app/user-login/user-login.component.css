@@ -1,0 +1,19 @@
+.ng-invalid.ng-touched{
+    border-color: red;
+}
+
+.error-block{
+    border-color: red;
+} 
+.login-container {
+  margin-top: 80px;
+}
+
+form {
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
