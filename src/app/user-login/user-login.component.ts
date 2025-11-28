@@ -39,7 +39,7 @@ export class UserLoginComponent implements OnInit {
         next: (res) => {
           this.authService.storeToken(res.token);
           alert('Login successful!');
-          this.router.navigate(['/']); // Navigate to home or dashboard
+          this.router.navigate(['']); 
         },
         error: (err) => {
           alert(err.error.message || 'Login failed');

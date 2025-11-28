@@ -6,11 +6,12 @@
     <div class="row justify-content-center">
       <div
         *ngFor="let product of products"
-        class="col-sm-6 col-md-4 col-lg-3 my-3 d-flex"
+        class=" col-sm-12 col-md-3 col-lg-3 my-6 d-flex"
       >
         <div class="card p-3 rounded w-100 d-flex flex-column">
           <img
             class="card-img-top mx-auto"
+            [routerLink]="['/product', product.id]"
             [src]="'/assets' + product.imageUrl"
             alt="{{ product.name }}"
             style="max-height: 200px; object-fit: contain;"
@@ -20,11 +21,14 @@
               <a [routerLink]="['/product', product.id]">{{ product.name }}</a>
             </h5>
             <p class="card-text text-center mb-2">Price: ₹{{ product.price }}</p>
-            <a *ngIf="product?.id" [routerLink]="['/product', product.id]">
-  <button class="btn btn-primary">View Details</button>
-</a>
+           
 
           </div>
+          <div class="text-center">
+           <a *ngIf="product?.id" [routerLink]="['/product', product.id]">
+  <button class="btn btn-primary align-content-lg-center" >View Details</button>
+</a>
+        </div>
         </div>
       </div>
     </div>

@@ -56,12 +56,15 @@
         <!-- Stock Status -->
         <p>
           Status:
-          <span
+
+          <span [ngStyle]="{color:'green'}">'In Stock'</span>
+
+          <!-- <span
             id="stock_status"
             [ngStyle]="{ color: product.stock > 0 ? 'green' : 'red' }"
           >
             {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
-          </span>
+          </span> -->
         </p>
 
         <hr />

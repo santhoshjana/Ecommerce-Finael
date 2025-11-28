@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
  
   
 
-constructor(private apiSerive: ApiService, private productService: ProductService){
+constructor(private apiService: ApiService, private productService: ProductService){
 
 }
 ngOnInit(): void {
@@ -25,6 +25,16 @@ ngOnInit(): void {
       next: (res) => this.products = res,
       error: (err) => console.error('Error loading products:', err)
     });
+     this.apiService.currentproduct.subscribe({
+      next: (res) => {
+        this.products = res;
+        console.log('Products updated:', res);
+      },
+      error: (err) => console.error('Error loading products:', err)
+    });
+
+    // Load initial product list
+    this.apiService.getProducts();
   }
 }
 

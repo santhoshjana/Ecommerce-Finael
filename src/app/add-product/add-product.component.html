@@ -1,38 +1,38 @@
-<h2>Add Product</h2>
+<h2 class="mb-4 text-center">Add Product</h2>
 
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Name:</label>
-    <input formControlName="name" />
-    <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid">
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow-sm bg-light">
+  <div class="mb-3">
+    <label class="form-label">Name:</label>
+    <input formControlName="name" class="form-control" />
+    <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid" class="text-danger mt-1">
       Name is required.
     </div>
   </div>
 
-  <div>
-    <label>Price:</label>
-    <input type="number" formControlName="price" />
-    <div *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid">
+  <div class="mb-3">
+    <label class="form-label">Price:</label>
+    <input type="number" formControlName="price" class="form-control" />
+    <div *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid" class="text-danger mt-1">
       Price is required and must be positive.
     </div>
   </div>
 
-  <div>
-    <label>Description:</label>
-    <textarea formControlName="description"></textarea>
+  <div class="mb-3">
+    <label class="form-label">Description:</label>
+    <textarea formControlName="description" rows="3" class="form-control"></textarea>
   </div>
 
-  <div>
-    <label>Category:</label>
-    <input formControlName="category" />
+  <div class="mb-3">
+    <label class="form-label">Category:</label>
+    <input formControlName="category" class="form-control" />
   </div>
 
-  <div>
-    <label>Image URL:</label>
-    <input formControlName="imageUrl" />
+  <div class="mb-3">
+    <label class="form-label">Image URL:</label>
+    <input formControlName="imageUrl" class="form-control" />
   </div>
 
-  <button type="submit" [disabled]="isSubmitting">Add Product</button>
+  <button type="submit" class="btn btn-primary w-100" [disabled]="isSubmitting">Add Product</button>
 
-  <p *ngIf="errorMsg" style="color: red;">{{ errorMsg }}</p>
+  <p *ngIf="errorMsg" class="text-danger text-center mt-3">{{ errorMsg }}</p>
 </form>

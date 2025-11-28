@@ -4,7 +4,7 @@
     
     <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" routerLink="/">
-      <img src="assets/images/logo.png" alt="Logo" width="100" class="me-2" />
+      <img src="assets/images/logo.png" alt="Logo" width="100" class="me-2 rounded-circle" />
       <span class="fw-bold text-dark">VSKcart</span>
     </a>
 
@@ -34,9 +34,11 @@
 
     <!-- Auth + Cart -->
     <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
-      <a routerLink="/login">
+      <a routerLink="/login"
+      *ngIf="!isLoggedIn">
         <button class="btn btn-outline-dark">Login</button>
       </a>
+      <button class="btn btn-outline-dark" *ngIf="isLoggedIn"  (click)="onLogout()" >Logout</button>
       <a routerLink="/register">
         <button class="btn btn-outline-dark">Register</button>
       </a>

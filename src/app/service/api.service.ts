@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Product } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +11,25 @@ export class ApiService {
 
   constructor(private http:HttpClient) { }
 
-  productSource = new BehaviorSubject([]);
+  productSource = new BehaviorSubject<Product[]>([]);
   currentproduct = this.productSource.asObservable();
   productsTmp: any = [];
 
   getProducts(){
-    this.http.get(environment.apiUrl + '/api/products').subscribe((data:any) =>{
+    this.http.get(environment.apiUrl + '/api/product').subscribe((data:any) =>{
       this.productSource.next(data);
       this.productsTmp = data;
     })
   }
 
-  searchProducts(searchText:string){
-    return this.http.get(environment.apiUrl + '/api/products',{
-      params: {keyword:searchText}
-    }).subscribe((data:any) =>{
-      this.productSource.next(data);
-    })
+ searchProducts(searchText: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${environment.apiUrl}/api/product/search`, {
+      params: { keyword: searchText },
+    });
   }
+
+
+
   clearSearch(searchText:string){
   if (searchText == '') {
     this.productSource.next(this.productsTmp);

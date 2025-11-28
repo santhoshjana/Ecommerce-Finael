@@ -4,6 +4,8 @@ import { Route, Router, RouterLink } from '@angular/router';
 import { CartService } from '../service/cart.service';
 import { ApiService } from '../service/api.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { Order, OrderService } from '../service/order.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
@@ -11,6 +13,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
+
 export class CartComponent implements OnInit {
 
     cartItems:any = [];
@@ -22,7 +25,9 @@ export class CartComponent implements OnInit {
     constructor(private cartservice:CartService,
                 private apiService:ApiService,
                 private router:Router,
-                private toastr: ToastrService){}
+                private toastr: ToastrService,
+                private orderService: OrderService,
+                private http: HttpClient){}
 
     ngOnInit(): void {
       this.cartservice.currentItems.subscribe((data:any) => {
@@ -99,32 +104,44 @@ export class CartComponent implements OnInit {
     this.router.navigate(['/order/success', orderId]);
   }
 
-       orderComplete(): void {
- const orderData = {
-  userId: 'user123',
-  items: this.cartItems.map((item: any) => ({
-    productId: item.product.id || item.product._id, // Make sure it's defined
-    quantity: item.qty
-  })),
-  subTotal: Number(this.subTotal),               // ✅ convert to number
-  estimatedTotal: Number(this.estTotal),         // ✅ convert to number
-  orderDate: new Date().toISOString()
-};
+ orderComplete() {
+  const items = this.cartItems.map((item: any) => ({
+    productId: item.product._id,   //  Correct MongoDB ObjectId
+    quantity: item.qty             //  Quantity field
+  }));
 
+  const subTotal = this.cartItems.reduce((total: number, item: any) => {
+    return total + (item.product.price * item.qty);
+  }, 0);
 
+  const estimatedTotal = subTotal;
 
-  console.log("Sending Order Data:", orderData);
+  const order = {
+    userId: 'user123',  //  Replace with dynamic auth ID if needed
+    items,
+    subTotal,
+    estimatedTotal,
+    orderDate: new Date().toISOString()
+  };
 
-   // ✅ Log the payload
+  this.apiService.orderCreate(order).subscribe({
+    next: (response: any) => {
+      console.log('Order API response:', response);
 
-  this.apiService.orderCreate(orderData).subscribe({
-    next: (res: any) => {
-      console.log('Order placed:', res);
-      this.toastr.success('Order placed successfully!');
-      this.cartservice.updateItems([]);
+      // ✅ Safely access _id from the returned object
+      const orderId = response?.order?._id || response?.id;
+
+      if (orderId) {
+        this.toastr.success('Order placed successfully!', 'Mini Ecommerce');
+        this.router.navigate(['order', 'success', orderId]);
+        this.cartservice.updateItems([]);
+      } else {
+        this.toastr.error('Order placed, but no ID returned.', 'Mini Ecommerce');
+      }
     },
-    error: (err: any) => {
-      console.error('Order error:', err); // ✅ You'll see backend message here
+    error: (err) => {
+      console.error('Order API error:', err);
+      this.toastr.error('Order failed due to server error.', 'Mini Ecommerce');
     }
   });
 }
@@ -132,6 +149,11 @@ export class CartComponent implements OnInit {
 
 
 
+   
+  }
+
+
+
 
     
-}
+

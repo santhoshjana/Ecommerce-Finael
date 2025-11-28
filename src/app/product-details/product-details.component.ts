@@ -7,10 +7,10 @@ import { CartService } from '../service/cart.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-product-details',// 👈 Add this if you're using standalone components
+  selector: 'app-product-details',
   imports: [CommonModule, FormsModule],
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css'], // fixed typo: styleUrl → styleUrls
+  styleUrls: ['./product-details.component.css'], 
 })
 export class ProductDetailsComponent implements OnInit {
   product: any = null;
@@ -28,7 +28,7 @@ export class ProductDetailsComponent implements OnInit {
     const id = params['id'];
     this.apiservice.getSingleProduct(id).subscribe({
   next: (res: any) => {
-    this.product = res; // ✅ Correct assignment
+    this.product = res; 
     console.log('Loaded product:', this.product);
   },
   error: (err) => {
